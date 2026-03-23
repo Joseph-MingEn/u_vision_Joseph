@@ -1,0 +1,55 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    03/24/2026  00:16:47  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\LEDtest.obj TO .\Objects\LEDtest PRINT (.\Listings\LEDtest.m51) CODE (0X0000-0X0FF
+>> F)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\LEDtest.obj (LEDTEST)
+
+
+LINK MAP OF MODULE:  .\Objects\LEDtest (LEDTEST)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0012H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\LEDtest (LEDTEST)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LEDTEST
+  C:000BH         SYMBOL        D1
+  C:000DH         SYMBOL        D2
+  C:0009H         SYMBOL        DELAY
+  D:0090H         SYMBOL        P1
+  C:0002H         SYMBOL        START
+  C:0000H         LINE#         65533
+  C:0002H         LINE#         2
+  C:0004H         LINE#         3
+  C:0005H         LINE#         4
+  C:0007H         LINE#         5
+  C:0009H         LINE#         6
+  C:000BH         LINE#         7
+  C:000DH         LINE#         8
+  C:000FH         LINE#         9
+  C:0011H         LINE#         10
+  -------         ENDMOD        LEDTEST
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0012H BYTE ( 0%) *
+******************************************************************************
+
+Program Size: data=8.0 xdata=0 code=18
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
