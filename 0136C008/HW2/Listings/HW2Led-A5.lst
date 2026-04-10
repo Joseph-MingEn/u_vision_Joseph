@@ -1,254 +1,166 @@
-A51 MACRO ASSEMBLER  HW2LED_A5                                                            03/26/2026 22:54:38 PAGE     1
+C51 COMPILER V9.60.7.0   HW2LED_A5                                                         04/10/2026 09:37:02 PAGE 1   
 
 
-MACRO ASSEMBLER A51 V8.2.7.0
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE HW2LED_A5
 OBJECT MODULE PLACED IN .\Objects\HW2Led-A5.obj
-ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE HW2Led-A5.A51 SET(SMALL) DEBUG PRINT(.\Listings\HW2Led-A5.lst) OBJECT(.
-                      \Objects\HW2Led-A5.obj) EP
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE HW2Led-A5.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\HW2Led-A5.lst) TABS(2) OBJECT(.\Objects\HW2Led-A5.obj)
 
-LOC  OBJ            LINE     SOURCE
+line level    source
 
-                       1     ;***********************************************************; 
-                       2     ;程式名稱 : ＬＥＤ－Ａ．ＡＳＭ;  
-                       3     ;功  能  : 廣告燈;  
-                       4     ;說  明  : 使用建表的方式製作廣告燈; 
-                       5     ;開關設定 : 無;
-                       6     ;***********************************************************
-0000                   7             ORG     00H
-0000 802E              8             JMP     FIRST
-0030                   9             ORG     30H
-0030                  10     FIRST:
-0030 7808             11             MOV     R0,#8          ; R0 : 迴圈計數
-0032 9000CC           12             MOV     DPTR,#LED_TABLE_FIRST ; DPTR 指向 LED 顯示資料表
-0035                  13     d1:
-0035 11AC             14             CALL    READ_LEDCODE    ; 讀LED 碼
-0037 F580             15             MOV     P0,A            ; 將LED 碼 送到PORT-0
-0039 A3               16             INC     DPTR            ; 指向下一筆 LED 顯示資料
-003A 11AC             17             CALL    READ_LEDCODE    ; 讀LED 碼
-003C F590             18             MOV     P1,A            ; 將LED 碼 送到PORT-1
-003E A3               19             INC     DPTR            ; 指向下一筆 LED 顯示資料
-003F 11AC             20             CALL    READ_LEDCODE    ; 讀LED 碼
-0041 F5A0             21             MOV     P2,A            ; 將LED 碼 送到PORT-2
-0043 A3               22             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0044 11AC             23             CALL    READ_LEDCODE    ; 讀LED 碼
-0046 F5B0             24             MOV     P3,A            ; 將LED 碼 送到PORT-3
-0048 A3               25             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0049 11B0             26             CALL    DELAY_05S      ; 延遲時間 0.5 SECOND
-004B D8E8             27             DJNZ    R0,d1
-004D 8000             28             JMP     SECOND;
-                      29     
-004F                  30     SECOND:
-004F 7903             31             MOV     R1,#3          ; R1 : 迴圈計數
-0051 9000EC           32             MOV     DPTR,#LED_TABLE_SECOND ; DPTR 指向 LED 顯示資料表
-0054                  33     d2:
-0054 11AC             34             CALL    READ_LEDCODE    ; 讀LED 碼
-0056 F580             35             MOV     P0,A            ; 將LED 碼 送到PORT-0
-0058 A3               36             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0059 11AC             37             CALL    READ_LEDCODE    ; 讀LED 碼
-005B F590             38             MOV     P1,A            ; 將LED 碼 送到PORT-1
-005D A3               39             INC     DPTR            ; 指向下一筆 LED 顯示資料
-005E 11AC             40             CALL    READ_LEDCODE    ; 讀LED 碼
-0060 F5A0             41             MOV     P2,A            ; 將LED 碼 送到PORT-2
-0062 A3               42             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0063 11AC             43             CALL    READ_LEDCODE    ; 讀LED 碼
-0065 F5B0             44             MOV     P3,A            ; 將LED 碼 送到PORT-3
-0067 A3               45             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0068 11BE             46             CALL    DELAY_01S      ; 延遲時間 0.5 SECOND
-006A D9E8             47             DJNZ    R1,d2
-006C 8000             48             JMP     THIRD;
-                      49     
-006E                  50     THIRD:
-006E 7A08             51             MOV     R2,#8          ; R2 : 迴圈計數
-0070 9000F8           52             MOV     DPTR,#LED_TABLE_THIRD ; DPTR 指向 LED 顯示資料表
-0073                  53     d3:
-0073 11AC             54             CALL    READ_LEDCODE    ; 讀LED 碼
-0075 F580             55             MOV     P0,A            ; 將LED 碼 送到PORT-0
-0077 A3               56             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0078 11AC             57             CALL    READ_LEDCODE    ; 讀LED 碼
-A51 MACRO ASSEMBLER  HW2LED_A5                                                            03/26/2026 22:54:38 PAGE     2
+   1          #include <REGX51.H>
+   2          
+   3          typedef unsigned char u8;
+   4          
+   5          /* =========================
+   6             LED 資料表
+   7             每 4 bytes = 一個畫面
+   8             依序輸出到 P0, P1, P2, P3
+   9             ========================= */
+  10          
+  11          const u8 LED_TABLE_FIRST[] = {
+  12              0x80, 0x01, 0x80, 0x01,
+  13              0xC0, 0x03, 0xC0, 0x03,
+  14              0xE0, 0x07, 0xE0, 0x07,
+  15              0xF0, 0x0F, 0xF0, 0x0F,
+  16              0xF8, 0x1F, 0xF8, 0x1F,
+  17              0xFC, 0x3F, 0xFC, 0x3F,
+  18              0xFE, 0x7F, 0xFE, 0x7F,
+  19              0xFF, 0xFF, 0xFF, 0xFF};
+  20          
+  21          const u8 LED_TABLE_SECOND[] = {
+  22              0x00, 0x00, 0x00, 0x00,
+  23              0xFF, 0xFF, 0xFF, 0xFF,
+  24              0x00, 0x00, 0x00, 0x00};
+  25          
+  26          const u8 LED_TABLE_THIRD[] = {
+  27              0xFF, 0xFF, 0xFF, 0xFF,
+  28              0xFE, 0x7F, 0xFE, 0x7F,
+  29              0xFC, 0x3F, 0xFC, 0x3F,
+  30              0xF8, 0x1F, 0xF8, 0x1F,
+  31              0xF0, 0x0F, 0xF0, 0x0F,
+  32              0xE0, 0x07, 0xE0, 0x07,
+  33              0xC0, 0x03, 0xC0, 0x03,
+  34              0x80, 0x01, 0x80, 0x01};
+  35          
+  36          const u8 LED_TABLE_FOURTH[] = {
+  37              0x00, 0x00, 0xFF, 0xFF,
+  38              0xFF, 0xFF, 0x00, 0x00,
+  39              0x00, 0x00, 0xFF, 0xFF,
+  40              0xFF, 0xFF, 0x00, 0x00};
+  41          
+  42          /* =========================
+  43             延遲副程式
+  44             ========================= */
+  45          
+  46          void DELAY_05S(void)
+  47          {
+  48   1          u8 r7, r6, r5;
+  49   1      
+  50   1          for (r7 = 5; r7 > 0; r7--)
+  51   1          {
+  52   2              for (r6 = 200; r6 > 0; r6--)
+  53   2              {
+  54   3                  for (r5 = 248; r5 > 0; r5--)
+C51 COMPILER V9.60.7.0   HW2LED_A5                                                         04/10/2026 09:37:02 PAGE 2   
 
-007A F590             58             MOV     P1,A            ; 將LED 碼 送到PORT-1
-007C A3               59             INC     DPTR            ; 指向下一筆 LED 顯示資料
-007D 11AC             60             CALL    READ_LEDCODE    ; 讀LED 碼
-007F F5A0             61             MOV     P2,A            ; 將LED 碼 送到PORT-2
-0081 A3               62             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0082 11AC             63             CALL    READ_LEDCODE    ; 讀LED 碼
-0084 F5B0             64             MOV     P3,A            ; 將LED 碼 送到PORT-3
-0086 A3               65             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0087 11B0             66             CALL    DELAY_05S      ; 延遲時間 0.1 SECOND
-0089 DAE8             67             DJNZ    R2,d3
-008B 8000             68             JMP     FOURTH;
-                      69     
-008D                  70     FOURTH:
-008D 7B04             71             MOV     R3,#4          ; R3 : 迴圈計數
-008F 900118           72             MOV     DPTR,#LED_TABLE_FOURTH ; DPTR 指向 LED 顯示資料表
-0092                  73     d4:
-0092 11AC             74             CALL    READ_LEDCODE    ; 讀LED 碼
-0094 F580             75             MOV     P0,A            ; 將LED 碼 送到PORT-0
-0096 A3               76             INC     DPTR            ; 指向下一筆 LED 顯示資料
-0097 11AC             77             CALL    READ_LEDCODE    ; 讀LED 碼
-0099 F590             78             MOV     P1,A            ; 將LED 碼 送到PORT-1
-009B A3               79             INC     DPTR            ; 指向下一筆 LED 顯示資料
-009C 11AC             80             CALL    READ_LEDCODE    ; 讀LED 碼
-009E F5A0             81             MOV     P2,A            ; 將LED 碼 送到PORT-2
-00A0 A3               82             INC     DPTR            ; 指向下一筆 LED 顯示資料
-00A1 11AC             83             CALL    READ_LEDCODE    ; 讀LED 碼
-00A3 F5B0             84             MOV     P3,A            ; 將LED 碼 送到PORT-3
-00A5 A3               85             INC     DPTR            ; 指向下一筆 LED 顯示資料
-00A6 11BE             86             CALL    DELAY_01S      ; 延遲時間 0.1 SECOND
-00A8 DBE8             87             DJNZ    R3,d4
-00AA 8084             88             JMP     FIRST;
-                      89     
-                      90     
-                      91     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                      92     ; 副程式名稱 ︰ READ_LEDCODE
-                      93     ; 功  能    ︰ 讀LED 碼儲存在累積器 ACC 中
-                      94     ;使用暫存器  ︰ A,DPTR
-                      95     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                      96     
-                      97     
-                      98     
-00AC                  99     READ_LEDCODE:
-00AC 7400            100             MOV     A,#0            ;
-00AE 93              101             MOVC    A,@A+DPTR       ; 將查表所得之資料送至 P0
-00AF 22              102             RET;
-                     103     
-                     104     
-                     105     
-                     106     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                     107     ; 副程式名稱 ︰ DELAY_0.5S
-                     108     ;  功  能    ︰ 延遲時間 0.5 SECOND
-                     109     ;使用暫存器  ︰ R7,R6,R5
-                     110     ;延遲時間    T=1+R7*[1+R6*(1+R5*2+2)+2]+2
-                     111     ;             =1+5*[1+200*(1+1+248*2+2)+2]+2
-                     112     ;             =500018 us = 0.5 SEC
-                     113     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                     114     
-00B0                 115     DELAY_05S:
-00B0 7F05            116             MOV     R7,#05
-00B2                 117     a3:        
-00B2 7EC8            118             MOV     R6,#200  ; 需要１個機械週期
-00B4                 119     a2:
-00B4 7DF8            120             MOV     R5,#248
-00B6 00              121             NOP              ; 需要１個機械週期
-00B7                 122     a1: 
-00B7 DDFE            123             DJNZ    R5,a1    ; 需要２個機械週期
-A51 MACRO ASSEMBLER  HW2LED_A5                                                            03/26/2026 22:54:38 PAGE     3
+  55   3                  {
+  56   4                      ; // 對應組語中的 NOP / 空迴圈
+  57   4                  }
+  58   3              }
+  59   2          }
+  60   1      }
+  61          
+  62          void DELAY_01S(void)
+  63          {
+  64   1          u8 r7, r6, r5;
+  65   1      
+  66   1          for (r7 = 1; r7 > 0; r7--)
+  67   1          {
+  68   2              for (r6 = 200; r6 > 0; r6--)
+  69   2              {
+  70   3                  for (r5 = 248; r5 > 0; r5--)
+  71   3                  {
+  72   4                      ;
+  73   4                  }
+  74   3              }
+  75   2          }
+  76   1      }
+  77          
+  78          /* =========================
+  79             顯示一個畫面
+  80             ptr 指向 4 個 bytes
+  81             ========================= */
+  82          
+  83          void SHOW_FRAME(const u8 *ptr)
+  84          {
+  85   1          P0 = ptr[0];
+  86   1          P1 = ptr[1];
+  87   1          P2 = ptr[2];
+  88   1          P3 = ptr[3];
+  89   1      }
+  90          
+  91          /* =========================
+  92             主程式
+  93             ========================= */
+  94          
+  95          void main(void)
+  96          {
+  97   1          u8 i;
+  98   1          const u8 *ptr;
+  99   1      
+ 100   1          while (1)
+ 101   1          {
+ 102   2              /* FIRST */
+ 103   2              ptr = LED_TABLE_FIRST;
+ 104   2              for (i = 0; i < 8; i++)
+ 105   2              {
+ 106   3                  SHOW_FRAME(ptr);
+ 107   3                  ptr += 4;
+ 108   3                  DELAY_05S();
+ 109   3              }
+ 110   2      
+ 111   2              /* SECOND */
+ 112   2              ptr = LED_TABLE_SECOND;
+ 113   2              for (i = 0; i < 3; i++)
+ 114   2              {
+ 115   3                  SHOW_FRAME(ptr);
+ 116   3                  ptr += 4;
+C51 COMPILER V9.60.7.0   HW2LED_A5                                                         04/10/2026 09:37:02 PAGE 3   
 
-00B9 DEF9            124             DJNZ    R6,a2
-00BB DFF5            125             DJNZ    R7,a3
-00BD 22              126             RET
-                     127     
-                     128     
-                     129     
-                     130     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                     131     ; 副程式名稱 ︰ DELAY_0.1S
-                     132     ;  功  能    ︰ 延遲時間 0.1 SECOND
-                     133     ;使用暫存器  ︰ R7,R6,R5
-                     134     ;延遲時間    T=1+R7*[1+R6*(1+R5*2+2)+2]+2
-                     135     ;             =1+1*[1+200*(1+1+248*2+2)+2]+2
-                     136     ;             =100018 us = 0.1 SEC
-                     137     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                     138     
-00BE                 139     DELAY_01S:
-00BE 7F01            140             MOV     R7,#01
-00C0                 141     a6:        
-00C0 7EC8            142             MOV     R6,#200  ; 需要１個機械週期
-00C2                 143     a5:
-00C2 7DF8            144             MOV     R5,#248
-00C4 00              145             NOP              ; 需要１個機械週期
-00C5                 146     a4: 
-00C5 DDFE            147             DJNZ    R5,a4    ; 需要２個機械週期
-00C7 DEF9            148             DJNZ    R6,a5
-00C9 DFF5            149             DJNZ    R7,a6
-00CB 22              150             RET
-                     151     
-                     152     
-                     153     
-                     154     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                     155     ; LED_TABLE  的資料 1 表示LED 會亮
-                     156     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                     157     
-                     158     
-00CC                 159     LED_TABLE_FIRST:                ; LED 顯示資料表
-                     160     
-00CC 80018001        161             DB      080H,001H,080H,001H        
-00D0 C003C003        162             DB      0C0H,003H,0C0H,003H        
-00D4 E007E007        163             DB      0E0H,007H,0E0H,007H        
-00D8 F00FF00F        164             DB      0F0H,00FH,0F0H,00FH        
-00DC F81FF81F        165             DB      0F8H,01FH,0F8H,01FH       
-00E0 FC3FFC3F        166             DB      0FCH,03FH,0FCH,03FH        
-00E4 FE7FFE7F        167             DB      0FEH,07FH,0FEH,07FH        
-00E8 FFFFFFFF        168             DB      0FFH,0FFH,0FFH,0FFH
-                     169             ;以上間隔 0.5 秒
-                     170     
-00EC                 171     LED_TABLE_SECOND:               ; LED 顯示資料表
-                     172     
-00EC 00000000        173             DB      000H,000H,000H,000H
-00F0 FFFFFFFF        174             DB      0FFH,0FFH,0FFH,0FFH
-00F4 00000000        175             DB      000H,000H,000H,000H
-                     176             ;以上間隔 0.1 秒
-                     177     
-00F8                 178     LED_TABLE_THIRD:                ; LED 顯示資料表
-                     179     
-00F8 FFFFFFFF        180             DB      0FFH,0FFH,0FFH,0FFH
-00FC FE7FFE7F        181             DB      0FEH,07FH,0FEH,07FH
-0100 FC3FFC3F        182             DB      0FCH,03FH,0FCH,03FH
-0104 F81FF81F        183             DB      0F8H,01FH,0F8H,01FH
-0108 F00FF00F        184             DB      0F0H,00FH,0F0H,00FH
-010C E007E007        185             DB      0E0H,007H,0E0H,007H
-0110 C003C003        186             DB      0C0H,003H,0C0H,003H
-0114 80018001        187             DB      080H,001H,080H,001H
-                     188             ;以上間隔 0.5 秒
-                     189     
-A51 MACRO ASSEMBLER  HW2LED_A5                                                            03/26/2026 22:54:38 PAGE     4
-
-0118                 190     LED_TABLE_FOURTH:               ; LED 顯示資料表
-                     191     
-0118 0000FFFF        192             DB      000H,000H,0FFH,0FFH
-011C FFFF0000        193             DB      0FFH,0FFH,000H,000H
-0120 0000FFFF        194             DB      000H,000H,0FFH,0FFH
-0124 FFFF0000        195             DB      0FFH,0FFH,000H,000H
-                     196             ;以上間隔 0.1 秒
-                     197     
-                     198     
-                     199     END
-A51 MACRO ASSEMBLER  HW2LED_A5                                                            03/26/2026 22:54:38 PAGE     5
-
-SYMBOL TABLE LISTING
------- ----- -------
+ 117   3                  DELAY_01S();
+ 118   3              }
+ 119   2      
+ 120   2              /* THIRD */
+ 121   2              ptr = LED_TABLE_THIRD;
+ 122   2              for (i = 0; i < 8; i++)
+ 123   2              {
+ 124   3                  SHOW_FRAME(ptr);
+ 125   3                  ptr += 4;
+ 126   3                  DELAY_05S();
+ 127   3              }
+ 128   2      
+ 129   2              /* FOURTH */
+ 130   2              ptr = LED_TABLE_FOURTH;
+ 131   2              for (i = 0; i < 4; i++)
+ 132   2              {
+ 133   3                  SHOW_FRAME(ptr);
+ 134   3                  ptr += 4;
+ 135   3                  DELAY_01S(); // 原組語此處 CALL 遺漏名稱，推定是 DELAY_01S
+ 136   3              }
+ 137   2          }
+ 138   1      }
 
 
-N A M E             T Y P E  V A L U E   ATTRIBUTES
-
-A1 . . . . . . . .  C ADDR   00B7H   A   
-A2 . . . . . . . .  C ADDR   00B4H   A   
-A3 . . . . . . . .  C ADDR   00B2H   A   
-A4 . . . . . . . .  C ADDR   00C5H   A   
-A5 . . . . . . . .  C ADDR   00C2H   A   
-A6 . . . . . . . .  C ADDR   00C0H   A   
-D1 . . . . . . . .  C ADDR   0035H   A   
-D2 . . . . . . . .  C ADDR   0054H   A   
-D3 . . . . . . . .  C ADDR   0073H   A   
-D4 . . . . . . . .  C ADDR   0092H   A   
-DELAY_01S. . . . .  C ADDR   00BEH   A   
-DELAY_05S. . . . .  C ADDR   00B0H   A   
-FIRST. . . . . . .  C ADDR   0030H   A   
-FOURTH . . . . . .  C ADDR   008DH   A   
-LED_TABLE_FIRST. .  C ADDR   00CCH   A   
-LED_TABLE_FOURTH .  C ADDR   0118H   A   
-LED_TABLE_SECOND .  C ADDR   00ECH   A   
-LED_TABLE_THIRD. .  C ADDR   00F8H   A   
-P0 . . . . . . . .  D ADDR   0080H   A   
-P1 . . . . . . . .  D ADDR   0090H   A   
-P2 . . . . . . . .  D ADDR   00A0H   A   
-P3 . . . . . . . .  D ADDR   00B0H   A   
-READ_LEDCODE . . .  C ADDR   00ACH   A   
-SECOND . . . . . .  C ADDR   004FH   A   
-THIRD. . . . . . .  C ADDR   006EH   A   
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    173    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     92       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
 
 
-REGISTER BANK(S) USED: 0 
-
-
-ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

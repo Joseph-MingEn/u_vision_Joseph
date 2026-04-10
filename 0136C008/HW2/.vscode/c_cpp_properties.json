@@ -3,6 +3,7 @@
         {
             "name": "Target 1",
             "includePath": [
+                "C:\\Keil_v5\\C51\\INC",
                 "c:\\Users\\user\\Documents\\GitHub\\u_vision_Joseph\\0136C008\\HW2"
             ],
             "defines": [
@@ -29,7 +30,7 @@
                 "_priority_=",
                 "_task_="
             ],
-            "intelliSenseMode": "${default}"
+            "intelliSenseMode": "windows-gcc-x86"
         }
     ],
     "version": 4

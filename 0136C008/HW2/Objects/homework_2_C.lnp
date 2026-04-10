@@ -1,0 +1,3 @@
+".\Objects\HW2Led-A5.obj" 
+TO ".\Objects\homework_2_C" 
+PRINT(".\Listings\homework_2_C.m51")

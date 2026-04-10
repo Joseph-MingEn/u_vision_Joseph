@@ -14,16 +14,16 @@ d1:
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P0,A            ; 將LED 碼 送到PORT-0
         INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    READ_LEDCODE    ; 讀LED 碼
+        CALL    READ_LEDCODE    ; 讀LED 碼 
         MOV     P1,A            ; 將LED 碼 送到PORT-1
         INC     DPTR            ; 指向下一筆 LED 顯示資料
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P2,A            ; 將LED 碼 送到PORT-2
         INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    READ_LEDCODE    ; 讀LED 碼
+        CALL    READ_LEDCODE    ; H]]=讀LED 碼
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    DELAY_05S      ; 延遲時間 0.5 SECOND
+        CALL    DELAY_05S      ; 延遲時間 0.1 SECOND
         DJNZ    R0,d1
         JMP     SECOND;
 
@@ -63,7 +63,7 @@ d3:
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    DELAY_05S      ; 延遲時間 0.1 SECOND
+        CALL    DELAY_05S      ; 延遲時間 0.5 SECOND
         DJNZ    R2,d3
         JMP     FOURTH;
 
@@ -83,7 +83,7 @@ d4:
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    DELAY_01S      ; 延遲時間 0.1 SECOND
+        CALL                  ; 延遲時間 0.1 SECOND
         DJNZ    R3,d4
         JMP     FIRST;
 
