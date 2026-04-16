@@ -377,9 +377,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>exam1.A51</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\exam1.A51</FilePath>
+              <FileName>exam1_c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\exam1_c.c</FilePath>
             </File>
           </Files>
         </Group>
