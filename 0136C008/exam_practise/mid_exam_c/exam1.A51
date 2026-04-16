@@ -5,14 +5,16 @@
 ;開關設定 : 無;
 ;***********************************************************
         ORG     00H
-        JMP     START
+        JMP     START          ; 重置後跳到主程式入口
         ORG     30H
 START:
-        MOV     R0,#5         ; R0 : 迴圈計數
-        MOV     R1,#7
-        MOV     R2,#4
+        ; 三段動畫的畫面數：第一段 5 張、第二段 7 張、第三段 4 張
+        MOV     R0,#5         ; R0 : 第一段迴圈計數
+        MOV     R1,#7         ; R1 : 第二段迴圈計數
+        MOV     R2,#4         ; R2 : 第三段迴圈計數
         MOV     DPTR,#LED_TABLE ; DPTR 指向 LED 顯示資料表
 d1:
+        ; 每次 d1 讀出 4 bytes，依序送到 P0~P3，形成 1 個畫面
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P0,A            ; 將LED 碼 送到PORT-0
         INC     DPTR            ; 指向下一筆 LED 顯示資料
@@ -26,8 +28,9 @@ d1:
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
         CALL    DELAY_01S      ; 延遲時間 0.5 SECOND
-        DJNZ    R0,d1
+        DJNZ    R0,d1          ; 第一段尚未播完就繼續
 d2:
+        ; 第二段動畫：資料緊接在第一段後面，DPTR 不重設
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P0,A            ; 將LED 碼 送到PORT-0
         INC     DPTR            ; 指向下一筆 LED 顯示資料
@@ -41,8 +44,9 @@ d2:
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
         CALL    DELAY_25S      ; 延遲時間 0.5 SECOND
-        DJNZ    R1,d2
+        DJNZ    R1,d2          ; 第二段尚未播完就繼續
 d3:
+        ; 第三段動畫：繼續順序讀表，播完後回 START 重播全部
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P0,A            ; 將LED 碼 送到PORT-0
         INC     DPTR            ; 指向下一筆 LED 顯示資料
@@ -56,8 +60,8 @@ d3:
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
         CALL    DELAY_05S      ; 延遲時間 0.5 SECOND
-        DJNZ    R2,d3
-        JMP     START;
+        DJNZ    R2,d3          ; 第三段尚未播完就繼續
+        JMP     START;         ; 三段都播完，從表頭重新播放
 
 
 
@@ -70,8 +74,8 @@ d3:
 
 
 READ_LEDCODE:
-        MOV     A,#0            ;
-        MOVC    A,@A+DPTR       ; 將查表所得之資料送至 P0
+        MOV     A,#0            ; A 當索引，固定讀 DPTR 指向位址
+        MOVC    A,@A+DPTR       ; 從程式記憶體取 1 byte 到 A
         RET;
 
 
@@ -150,12 +154,14 @@ a7:
 
 LED_TABLE:                ; LED 顯示資料表
 
+        ; -------- 第一段 (R0=5) --------
         DB      0F0H,0F0H,0F0H,0F0H        
         DB      0FH,0FH,0FH,0FH        
         DB      0FFH,000H,000H,0FFH        
         DB      00H,0FFH,0FFH,00H
         DB      0FFH,0FFH,0FFH,0FFH
 
+        ; -------- 第二段 (R1=7) --------
         DB      0AAH,0AAH,0AAH,0AAH        
         DB      55H,55H,55H,55H        
         DB      0CCH,0CCH,0CCH,0CCH        
@@ -163,6 +169,7 @@ LED_TABLE:                ; LED 顯示資料表
         DB      00011100B, 01110001B, 11000111B, 00011100B 
         DB      00H, 00H, 00H, 00H   
 
+        ; -------- 第三段 (R2=4) --------
         DB      088H,088H,088H,088H
         DB      0BBH,0BBH,0BBH,0BBH
         DB      0EEH,0EEH,0EEH,0EEH
