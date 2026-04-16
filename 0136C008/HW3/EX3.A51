@@ -18,16 +18,22 @@ Loop:   mov     a,r4
 
 ;delay time=r5*(20ms)
 Delay:  mov     r6,40
+
 Del:    mov     r7,#249
+
 $1:     djnz    r7,$1
         djnz    r6,Del
         djnz    r5,Delay
         ret
+
 Hex_To_7SEG:
+
         mov     dptr,#Segment_Table
         movc    a,@a+dptr
         ret
+
 Segment_Table:
+        
         db 0fch,060h,0dah,0f2h,066h ;0-4
         db 0b6h,03eh,0e0h,0feh,0e6h ;5-9
         db 0ffh,07fh,0bfh,0dfh,0efh,0f7h ;a-f

@@ -13,13 +13,14 @@ LOOP:
         MOV     P0,#00000000B
         MOV     R5,#100 ;延遲2秒
         CALL DELAY
+        INC     DPTR
         JMP LOOP
 
 ; delay time=R5*(20ms)
 DELAY:
         MOV     R6,#40
 DEL:    MOV     R7,#249
-$1:     DJNZ    R7,$1
+a1:     DJNZ    R7,a1
         DJNZ    R6,DEL
         DJNZ    R5,DELAY
 RET

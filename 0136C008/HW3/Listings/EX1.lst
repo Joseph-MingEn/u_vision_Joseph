@@ -1,0 +1,71 @@
+A51 MACRO ASSEMBLER  EX1                                                                  04/10/2026 12:45:03 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\EX1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE EX1.A51 SET(SMALL) DEBUG PRINT(.\Listings\EX1.lst) OBJECT(.\Objects\EX1
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0H
+0000                   2     INITIAL:
+0000 900028            3             MOV     DPTR,#TABLE
+0003                   4     LOOP:
+0003 7400              5             MOV     A,#0 ;偏移量即顯示數字
+0005 93                6             MOVC    A,@A+DPTR
+0006 F580              7             MOV     P0,A
+0008 7D19              8             MOV     R5,#25 ;延遲0.5秒
+000A 111D              9             CALL    DELAY
+000C 758000           10             MOV     P0,#00000000B ;全熄
+000F 7D0F             11             MOV     R5,#15 ;延遲0.3秒
+0011 111D             12             CALL    DELAY
+0013 758000           13             MOV     P0,#00000000B
+0016 7D64             14             MOV     R5,#100 ;延遲2秒
+0018 111D             15             CALL DELAY
+001A A3               16             INC     DPTR
+001B 80E6             17             JMP LOOP
+                      18     
+                      19     ; delay time=R5*(20ms)
+001D                  20     DELAY:
+001D 7E28             21             MOV     R6,#40
+001F 7FF9             22     DEL:    MOV     R7,#249
+0021 DFFE             23     a1:     DJNZ    R7,a1
+0023 DEFA             24             DJNZ    R6,DEL
+0025 DDF6             25             DJNZ    R5,DELAY
+0027 22               26     RET
+                      27     
+                      28     ;修正成學號
+0028                  29     TABLE:
+0028 FC               30             DB 11111100B ;共陰極之0
+0029 60               31             DB 01100000B ;共陰極之1
+002A DA               32             DB 11011010B ;共陰極之2
+002B F2               33             DB 11110010B ;共陰極之3
+002C 66               34             DB 01100110B ;共陰極之4
+002D B6               35             DB 10110110B ;共陰極之5
+002E 3E               36             DB 00111110B ;共陰極之6
+002F E0               37             DB 11100000B ;共陰極之7
+0030 FE               38             DB 11111110B ;共陰極之8
+0031 E6               39             DB 11100110B ;共陰極之9
+*** WARNING #A41 IN 39 (EX1.A51, LINE 39): MISSING 'END' STATEMENT
+A51 MACRO ASSEMBLER  EX1                                                                  04/10/2026 12:45:03 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+A1 . . . . . . . .  C ADDR   0021H   A   
+DEL. . . . . . . .  C ADDR   001FH   A   
+DELAY. . . . . . .  C ADDR   001DH   A   
+INITIAL. . . . . .  C ADDR   0000H   A   
+LOOP . . . . . . .  C ADDR   0003H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+TABLE. . . . . . .  C ADDR   0028H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  1 WARNING(S), 0 ERROR(S)
