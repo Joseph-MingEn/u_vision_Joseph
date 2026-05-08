@@ -1,0 +1,3 @@
+".\Objects\exam1.obj" 
+TO ".\Objects\mid_exam" 
+PRINT(".\Listings\mid_exam.m51") CODE( 0X0000-0X0FFF )

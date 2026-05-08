@@ -1,0 +1,75 @@
+A51 MACRO ASSEMBLER  EX3                                                                  04/24/2026 10:03:55 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\EX3.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE EX3.A51 SET(SMALL) DEBUG PRINT(.\Listings\EX3.lst) OBJECT(.\Objects\EX3
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             org     00h
+0000 7C00              2             mov     r4,#0 ;display counter
+0002 EC                3     Loop:   mov     a,r4
+                       4     ;處理個位數
+0003 540F              5             anl     a,#0fh ; get one digit
+0005 1123              6             call Hex_To_7SEG
+0007 F590              7             mov     p1,a
+0009 EC                8             mov     a,r4
+                       9             ;處理十位數
+000A C4               10             swap    a ; get ten digit
+000B 540F             11             anl     a,#0fh
+000D 1123             12             call Hex_To_7SEG
+000F F5A0             13             mov     p2,a
+0011 7D32             14             mov     r5,#50 ; display 1 second
+0013 1118             15             call DELAY
+0015 0C               16             inc     r4
+0016 80EA             17             jmp     Loop
+                      18     
+                      19     ;delay time=r5*(20ms)
+0018 AE28             20     DELAY:  mov     r6,40
+                      21     
+001A 7FF9             22     Del:    mov     r7,#249
+                      23     
+001C DFFE             24     Del1:   djnz    r7,Del1
+001E DEFA             25             djnz    r6,Del
+0020 DDF6             26             djnz    r5,DELAY
+0022 22               27             ret
+                      28     
+0023                  29     Hex_To_7SEG:
+                      30     
+0023 900028           31             mov     dptr,#Segment_Table
+0026 93               32             movc    a,@a+dptr
+0027 22               33             ret
+                      34     
+0028                  35     Segment_Table:
+                      36             
+0028 FC60DAF2         37             db 0fch,060h,0dah,0f2h,066h ;0-4
+002C 66                      
+002D B63EE0FE         38             db 0b6h,03eh,0e0h,0feh,0e6h ;5-9
+0031 E6                      
+0032 FF7FBFDF         39             db 0ffh,07fh,0bfh,0dfh,0efh,0f7h ;a-f
+0036 EFF7                    
+*** WARNING #A41 IN 39 (EX3.A51, LINE 39): MISSING 'END' STATEMENT
+A51 MACRO ASSEMBLER  EX3                                                                  04/24/2026 10:03:55 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEL. . . . . . . .  C ADDR   001AH   A   
+DEL1 . . . . . . .  C ADDR   001CH   A   
+DELAY. . . . . . .  C ADDR   0018H   A   
+HEX_TO_7SEG. . . .  C ADDR   0023H   A   
+LOOP . . . . . . .  C ADDR   0002H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SEGMENT_TABLE. . .  C ADDR   0028H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  1 WARNING(S), 0 ERROR(S)

@@ -43,7 +43,7 @@ d2:
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P3,A            ; 將LED 碼 送到PORT-3
         INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    DELAY_025S      ; 延遲時間 0.5 SECOND
+        CALL    DELAY_25S      ; 延遲時間 0.5 SECOND
         DJNZ    R1,d2
         JMP     THIRD;
 
@@ -158,11 +158,11 @@ a7:
 
 LED_TABLE_FIRST:                ; LED 顯示資料表
 
-        DB      0E0H,0E0H,0E0H,0E0H        
-        DB      0EH,0EH,0EH,0EH        
-        DB      0EEH,000H,000H,0EEH        
-        DB      00H,0EEH,0EEH,00H
-        DB      0EEH,0EEH,0EEH,0EEH
+        DB      0F0H,0F0H,0F0H,0F0H        
+        DB      0FH,0FH,0FH,0FH        
+        DB      0FFH,000H,000H,0FFH        
+        DB      00H,0FFH,0FFH,00H
+        DB      0FFH,0FFH,0FFH,0FFH
         ;以上間隔 0.5 秒
 
 LED_TABLE_SECOND:               ; LED 顯示資料表
@@ -178,7 +178,7 @@ LED_TABLE_SECOND:               ; LED 顯示資料表
 LED_TABLE_THIRD:                ; LED 顯示資料表
 
         DB      088H,088H,088H,088H
-        DB      0BBH,0BBH,0BBH,0BBH
+        DB      0CCH,0CCH,0CCH,0CCH
         DB      0EEH,0EEH,0EEH,0EEH
         DB      0FFH,0FFH,0FFH,0FFH
         ;以上間隔 0.5 秒

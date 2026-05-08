@@ -1,0 +1,102 @@
+A51 MACRO ASSEMBLER  HW4_2                                                                05/08/2026 12:17:14 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\HW4_2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE HW4_2.A51 SET(SMALL) DEBUG PRINT(.\Listings\HW4_2.lst) OBJECT(.\Objects
+                      \HW4_2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 00H ; 主程式起點
+0000 8013              2             JMP START ; 跳至主程式
+0003                   3             ORG 03H ; 指到程式記憶體的03H位址
+0003 8025              4             JMP SUB_INT0 ; 跳至INT0中斷副程式
+0013                   5             ORG 13H ; 指到程式記憶體的13H位址
+0013 801E              6             JMP SUB_INT1 ;跳至INT1中斷副程式
+0015                   7     START:
+0015 75815F            8             MOV SP,#5FH ;設定堆疊指標(Stack Pointer)
+                       9     
+                      10             ; MOV A,#01H
+                      11             ; MOV P0, A ; 設定輸出埠初始值
+                      12     
+0018 7800             13             MOV R0,#00H        ; R0 當計數器，0~9
+001A 113C             14             ACALL DISPLAY
+                      15     
+001C D2AF             16             SETB EA ;致能中斷系統
+001E 75A885           17             MOV IE,#10000101B ; INT0, INT1 中斷致能
+0021 75B801           18             MOV IP,#00000001B ; INT0 中斷優先於 INT1設定
+0024 D288             19             SETB IT0 ; INT0 負緣觸發
+0026 D28A             20             SETB IT1 ; INT1 負緣觸發
+0028                  21     D1:
+0028 80FE             22             JMP D1 ; 無窮回路等待中斷; INT0中斷副程式
+                      23     
+002A                  24     SUB_INT0:
+002A 08               25             INC R0
+002B B80A02           26             CJNE R0,#0AH,INT0_OK
+002E 7800             27             MOV R0,#00H        ; 超過9回到0
+0030                  28     INT0_OK:
+0030 113C             29             CALL DISPLAY
+0032 32               30             RETI
+                      31     
+0033                  32     SUB_INT1:
+0033 18               33             DEC R0
+0034 B80002           34             CJNE R0,#00H,INT1_OK
+0037 7809             35             MOV R0,#09H        ; 0再減回到9
+                      36     
+0039                  37     INT1_OK:
+0039 113C             38             CALL DISPLAY
+003B 32               39             RETI
+                      40     
+                      41     
+003C                  42     DISPLAY:
+003C E8               43             MOV A,R0
+003D 900044           44             MOV DPTR,#TABLE
+0040 93               45             MOVC A,@A+DPTR
+0041 F580             46             MOV P0,A
+0043 22               47             RET
+                      48     
+0044                  49     TABLE:
+0044 FC               50             DB 0fch    ; 0
+0045 60               51             DB 060h    ; 1
+0046 DA               52             DB 0dah    ; 2
+0047 F2               53             DB 0f2h    ; 3
+0048 66               54             DB 066h    ; 4
+0049 B6               55             DB 0b6h    ; 5
+004A 3E               56             DB 03eh    ; 6
+004B E0               57             DB 0e0h    ; 7
+A51 MACRO ASSEMBLER  HW4_2                                                                05/08/2026 12:17:14 PAGE     2
+
+004C FE               58             DB 0feh    ; 8
+004D E6               59             DB 0e6h    ; 9
+                      60     
+                      61     END
+A51 MACRO ASSEMBLER  HW4_2                                                                05/08/2026 12:17:14 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0028H   A   
+DISPLAY. . . . . .  C ADDR   003CH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INT0_OK. . . . . .  C ADDR   0030H   A   
+INT1_OK. . . . . .  C ADDR   0039H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0015H   A   
+SUB_INT0 . . . . .  C ADDR   002AH   A   
+SUB_INT1 . . . . .  C ADDR   0033H   A   
+TABLE. . . . . . .  C ADDR   0044H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

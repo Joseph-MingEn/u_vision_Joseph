@@ -1,0 +1,81 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    04/24/2026  12:30:19  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\HW3_2.obj TO .\Objects\HW3_2 PRINT (.\Listings\HW3_2.m51) CODE (0X0000-0X0FFF)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\HW3_2.obj (HW3_2)
+
+
+LINK MAP OF MODULE:  .\Objects\HW3_2 (HW3_2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     00B0H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\HW3_2 (HW3_2)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        HW3_2
+  C:0059H         SYMBOL        A1
+  C:0035H         SYMBOL        D1
+  C:0057H         SYMBOL        DEL
+  C:0055H         SYMBOL        DELAY
+  D:0080H         SYMBOL        P0
+  D:0090H         SYMBOL        P1
+  D:00A0H         SYMBOL        P2
+  D:00B0H         SYMBOL        P3
+  C:0051H         SYMBOL        READ_LEDCODE
+  C:0030H         SYMBOL        START
+  C:0060H         SYMBOL        TABLE
+  C:0000H         LINE#         2
+  C:0030H         LINE#         5
+  C:0032H         LINE#         6
+  C:0035H         LINE#         8
+  C:0037H         LINE#         9
+  C:0039H         LINE#         10
+  C:003AH         LINE#         11
+  C:003CH         LINE#         12
+  C:003EH         LINE#         13
+  C:003FH         LINE#         14
+  C:0041H         LINE#         15
+  C:0043H         LINE#         16
+  C:0044H         LINE#         17
+  C:0046H         LINE#         18
+  C:0048H         LINE#         19
+  C:0049H         LINE#         20
+  C:004BH         LINE#         21
+  C:004DH         LINE#         22
+  C:004FH         LINE#         23
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/24/2026  12:30:19  PAGE 2
+
+
+  C:0051H         LINE#         36
+  C:0053H         LINE#         37
+  C:0054H         LINE#         38
+  C:0055H         LINE#         44
+  C:0057H         LINE#         45
+  C:0059H         LINE#         46
+  C:005BH         LINE#         47
+  C:005DH         LINE#         48
+  C:005FH         LINE#         49
+  -------         ENDMOD        HW3_2
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0082H BYTE ( 6%) *
+******************************************************************************
+
+Program Size: data=8.0 xdata=0 code=176
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

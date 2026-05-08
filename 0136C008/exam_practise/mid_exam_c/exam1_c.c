@@ -13,7 +13,7 @@ const u8 LED_TABLE_FIRST[] = {
     0x0F, 0x0F, 0x0F, 0x0F,
     0xFF, 0x00, 0x00, 0xFF,
     0x00, 0xFF, 0xFF, 0x00,
-    0xFF, 0xFF, 0xFF, 0xFF};
+    0xFF, 0xFF, 0xFF, 0xFF}; 
 
 const u8 LED_TABLE_SECOND[] = {
     0xAA, 0xAA, 0xAA, 0xAA,
@@ -25,7 +25,7 @@ const u8 LED_TABLE_SECOND[] = {
 
 const u8 LED_TABLE_THIRD[] = {
     0x88, 0x88, 0x88, 0x88,
-    0xBB, 0xBB, 0xBB, 0xBB,
+    0xCC, 0xCC, 0xCC, 0xCC,
     0xEE, 0xEE, 0xEE, 0xEE,
     0xFF, 0xFF, 0xFF, 0xFF};
 
@@ -106,7 +106,7 @@ void main(void)
     {
         /* FIRST */
         ptr = LED_TABLE_FIRST;
-        for (i = 0; i < 8; i++)
+        for (i = 0; i < 5; i++)
         {
             SHOW_FRAME(ptr);
             ptr += 4;
@@ -115,7 +115,7 @@ void main(void)
 
         /* SECOND */
         ptr = LED_TABLE_SECOND;
-        for (i = 0; i < 3; i++)
+        for (i = 0; i < 6; i++)
         {
             SHOW_FRAME(ptr);
             ptr += 4;
@@ -124,11 +124,11 @@ void main(void)
 
         /* THIRD */
         ptr = LED_TABLE_THIRD;
-        for (i = 0; i < 8; i++)
+        for (i = 0; i < 4; i++)
         {
             SHOW_FRAME(ptr);
             ptr += 4;
             DELAY_05S();
-        }
+        
     }
 }

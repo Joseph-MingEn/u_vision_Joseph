@@ -13,19 +13,19 @@ START:
 d1:
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P0,A            ; 將LED 碼 送到PORT-0
-        INC     DPTR            ; 指向下一筆 LED 顯示資料
+        INC     DPTR            ; 重點指向下一筆 LED 顯示資料
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P1,A            ; 將LED 碼 送到PORT-1
-        INC     DPTR            ; 指向下一筆 LED 顯示資料
+        INC     DPTR            ; 重點指向下一筆 LED 顯示資料
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P2,A            ; 將LED 碼 送到PORT-2
-        INC     DPTR            ; 指向下一筆 LED 顯示資料
+        INC     DPTR            ; 重點指向下一筆 LED 顯示資料
         CALL    READ_LEDCODE    ; 讀LED 碼
         MOV     P3,A            ; 將LED 碼 送到PORT-3
-        INC     DPTR            ; 指向下一筆 LED 顯示資料
-        CALL    DELAY_05S      ; 延遲時間 0.5 SECOND
-        DJNZ    R0,d1
-        JMP     START;
+        INC     DPTR            ; 重點指向下一筆 LED 顯示資料
+        CALL    DELAY_05S       ; 延遲時間 0.5 SECOND
+        DJNZ    R0,d1           ; 尚未播完就繼續
+        JMP     START           ; 播完後回 START 重播全部
 
 
 

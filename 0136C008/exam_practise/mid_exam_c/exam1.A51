@@ -171,7 +171,7 @@ LED_TABLE:                ; LED 顯示資料表
 
         ; -------- 第三段 (R2=4) --------
         DB      088H,088H,088H,088H
-        DB      0BBH,0BBH,0BBH,0BBH
+        DB      0CCH,0CCH,0CCH,0CCH
         DB      0EEH,0EEH,0EEH,0EEH
         DB      0FFH,0FFH,0FFH,0FFH    
 

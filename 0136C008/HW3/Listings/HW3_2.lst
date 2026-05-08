@@ -1,0 +1,117 @@
+A51 MACRO ASSEMBLER  HW3_2                                                                04/24/2026 12:29:55 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\HW3_2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE HW3_2.A51 SET(SMALL) DEBUG PRINT(.\Listings\HW3_2.lst) OBJECT(.\Objects
+                      \HW3_2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     00H
+0000 802E              2             JMP     START
+0030                   3             ORG     30H
+0030                   4     START:
+0030 7814              5             MOV     R0,#20          ; R0 : 迴圈計數
+0032 900060            6             MOV     DPTR,#TABLE ; DPTR 指向 LED 顯示資料表
+0035                   7     d1:
+0035 1151              8             CALL    READ_LEDCODE    ; 讀LED 碼
+0037 F580              9             MOV     P0,A            ; 將LED 碼 送到PORT-0
+0039 A3               10             INC     DPTR            ; 指向下一筆 LED 顯示資料
+003A 1151             11             CALL    READ_LEDCODE    ; 讀LED 碼 
+003C F590             12             MOV     P1,A            ; 將LED 碼 送到PORT-1
+003E A3               13             INC     DPTR            ; 指向下一筆 LED 顯示資料
+003F 1151             14             CALL    READ_LEDCODE    ; 讀LED 碼
+0041 F5A0             15             MOV     P2,A            ; 將LED 碼 送到PORT-2
+0043 A3               16             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0044 1151             17             CALL    READ_LEDCODE    ; 讀LED 碼
+0046 F5B0             18             MOV     P3,A            ; 將LED 碼 送到PORT-3
+0048 A3               19             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0049 7D32             20             MOV     R5,#50 ;延遲0.5秒
+004B 1155             21             CALL    DELAY
+004D D8E6             22             DJNZ    R0,d1
+004F 80DF             23             JMP     START;
+                      24     
+                      25     
+                      26     
+                      27     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                      28     ; 副程式名稱 ︰ READ_LEDCODE
+                      29     ; 功  能    ︰ 讀LED 碼儲存在累積器 ACC 中
+                      30     ;使用暫存器  ︰ A,DPTR
+                      31     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                      32     
+                      33     
+                      34     
+0051                  35     READ_LEDCODE:
+0051 7400             36             MOV     A,#0            ;
+0053 93               37             MOVC    A,@A+DPTR       ; 將查表所得之資料送至 P0
+0054 22               38             RET;
+                      39     
+                      40     
+                      41     
+                      42     ; delay time=R5*(20ms)
+0055                  43     DELAY:
+0055 7E28             44             MOV     R6,#40
+0057 7FF9             45     DEL:    MOV     R7,#249
+0059 DFFE             46     a1:     DJNZ    R7,a1
+005B DEFA             47             DJNZ    R6,DEL
+005D DDF6             48             DJNZ    R5,DELAY
+005F 22               49     RET
+                      50     
+                      51     
+                      52     
+                      53     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                      54     ; LED_TABLE  的資料 1 表示LED 會亮
+                      55     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                      56     
+                      57     
+A51 MACRO ASSEMBLER  HW3_2                                                                04/24/2026 12:29:55 PAGE     2
+
+0060                  58     TABLE:
+0060 FC000000         59             DB 0fch, 00000000B, 00H, 00H ;共陰極之0
+0064 60010000         60             DB 060h, 00000001B, 00H, 00H ;共陰極之1
+0068 DA030000         61             DB 0dah, 00000011B, 00H, 00H ;共陰極之2
+006C F2070000         62             DB 0f2h, 00000111B, 00H, 00H ;共陰極之3
+0070 660F0000         63             DB 066h,  00001111B, 00H, 00H;共陰極之4
+0074 B61F0000         64             DB 0b6h,  00011111B, 00H, 00H;共陰極之5
+0078 3E3F0000         65             DB 03eh,  00111111B, 00H, 00H;共陰極之6
+007C E07F0000         66             DB 0e0h,  01111111B, 00H, 00H;共陰極之7
+0080 FEFF0000         67             DB 0feh,  11111111B, 00H, 00H;共陰極之8
+0084 E6FF0100         68             DB 0e6h,  11111111B, 01H, 00H;共陰極之9
+0088 FEFF0000         69             DB 0feh,  11111111B, 00H, 00H;共陰極之8    
+008C E07F0000         70             DB 0e0h,  01111111B, 00H, 00H;共陰極之7
+0090 3E3F0000         71             DB 03eh,  00111111B, 00H, 00H;共陰極之6
+0094 B61F0000         72             DB 0b6h,  00011111B, 00H, 00H;共陰極之5
+0098 660F0000         73             DB 066h, 00001111B, 00H, 00H;共陰極之4
+009C F2070000         74             DB 0f2h, 00000111B, 00H, 00H ;共陰極之3
+00A0 DA030000         75             DB 0dah, 00000011B, 00H, 00H ;共陰極之2
+00A4 60010000         76             DB 060h, 00000001B, 00H, 00H ;共陰極之1
+00A8 FC000000         77             DB 0fch, 00000000B, 00H, 00H ;共陰極之0
+00AC 00000000         78             DB 00H, 00000000B, 00H, 00H ;共陰極之-1 
+                      79     
+                      80     END
+A51 MACRO ASSEMBLER  HW3_2                                                                04/24/2026 12:29:55 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+A1 . . . . . . . .  C ADDR   0059H   A   
+D1 . . . . . . . .  C ADDR   0035H   A   
+DEL. . . . . . . .  C ADDR   0057H   A   
+DELAY. . . . . . .  C ADDR   0055H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+READ_LEDCODE . . .  C ADDR   0051H   A   
+START. . . . . . .  C ADDR   0030H   A   
+TABLE. . . . . . .  C ADDR   0060H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

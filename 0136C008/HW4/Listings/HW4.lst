@@ -1,0 +1,63 @@
+A51 MACRO ASSEMBLER  HW4                                                                  05/08/2026 10:56:59 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\HW4.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE HW4.A51 SET(SMALL) DEBUG PRINT(.\Listings\HW4.lst) OBJECT(.\Objects\HW4
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 00H ; 主程式起點
+0000 8013              2             JMP START ; 跳至主程式
+0003                   3             ORG 03H ; 指到程式記憶體的03H位址
+0003 8025              4             JMP SUB_INT0 ; 跳至INT0中斷副程式
+0013                   5             ORG 13H ; 指到程式記憶體的13H位址
+0013 8019              6             JMP SUB_INT1 ;跳至INT1中斷副程式
+0015                   7     START:
+0015 75815F            8             MOV SP,#5FH ;設定堆疊指標(Stack Pointer)
+0018 7401              9             MOV A,#01H
+001A F580             10             MOV P0, A ; 設定輸出埠初始值
+001C D2AF             11             SETB EA ;致能中斷系統
+001E 75A885           12             MOV IE,#10000101B ; INT0, INT1 中斷致能
+0021 75B801           13             MOV IP,#00000001B ; INT0 中斷優先於 INT1設定
+0024 D288             14             SETB IT0 ; INT0 負緣觸發
+0026 D28A             15             SETB IT1 ; INT1 負緣觸發
+0028                  16     D1:
+0028 80FE             17             JMP D1 ; 無窮回路等待中斷; INT0中斷副程式
+                      18     
+002A                  19     SUB_INT0:
+002A F580             20             MOV P0,A ; 輸出 P0資料
+002C 04               21             INC A ; A 加一
+002D 32               22             RETI ; INT1中斷副程式
+002E                  23     SUB_INT1:
+002E F580             24             MOV P0,A ; 輸出 P0資料
+0030 14               25             DEC A ; A減一
+0031 32               26             RETI
+                      27     
+                      28     END
+A51 MACRO ASSEMBLER  HW4                                                                  05/08/2026 10:56:59 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0028H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0015H   A   
+SUB_INT0 . . . . .  C ADDR   002AH   A   
+SUB_INT1 . . . . .  C ADDR   002EH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

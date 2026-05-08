@@ -1,0 +1,285 @@
+A51 MACRO ASSEMBLER  EXAM1                                                                04/17/2026 11:16:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\exam1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE ..\exam_practise\mid\exam1.A51 SET(SMALL) DEBUG PRINT(.\Listings\exam1.
+                      lst) OBJECT(.\Objects\exam1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;***********************************************************; 
+                       2     ;程式名稱 : ＬＥＤ－Ａ．ＡＳＭ;  
+                       3     ;功  能  : 廣告燈;  
+                       4     ;說  明  : 使用建表的方式製作廣告燈; 
+                       5     ;開關設定 : 無;
+                       6     ;***********************************************************
+0000                   7             ORG     00H
+0000 802E              8             JMP     START          ; 重置後跳到主程式入口
+0030                   9             ORG     30H
+0030                  10     START:
+                      11             ; 三段動畫的畫面數：第一段 5 張、第二段 7 張、第三段 4 張
+0030 7806             12             MOV     R0,#6         ; R0 : 第一段迴圈計數
+0032 7905             13             MOV     R1,#5         ; R1 : 第二段迴圈計數
+0034 7A04             14             MOV     R2,#4         ; R2 : 第三段迴圈計數
+0036 7B07             15             MOV     R3,#7
+0038 9000D9           16             MOV     DPTR,#LED_TABLE ; DPTR 指向 LED 顯示資料表
+003B                  17     d1:
+                      18             ; 每次 d1 讀出 4 bytes，依序送到 P0~P3，形成 1 個畫面
+003B 119D             19             CALL    READ_LEDCODE    ; 讀LED 碼
+003D F580             20             MOV     P0,A            ; 將LED 碼 送到PORT-0
+003F A3               21             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0040 119D             22             CALL    READ_LEDCODE    ; 讀LED 碼
+0042 F590             23             MOV     P1,A            ; 將LED 碼 送到PORT-1
+0044 A3               24             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0045 119D             25             CALL    READ_LEDCODE    ; 讀LED 碼
+0047 F5A0             26             MOV     P2,A            ; 將LED 碼 送到PORT-2
+0049 A3               27             INC     DPTR            ; 指向下一筆 LED 顯示資料
+004A 119D             28             CALL    READ_LEDCODE    ; 讀LED 碼
+004C F5B0             29             MOV     P3,A            ; 將LED 碼 送到PORT-3
+004E A3               30             INC     DPTR            ; 指向下一筆 LED 顯示資料
+004F 11CB             31             CALL    DELAY_1S      ; 延遲時間 0.5 SECOND
+0051 D8E8             32             DJNZ    R0,d1          ; 第一段尚未播完就繼續
+0053                  33     d2:
+                      34             ; 第二段動畫：資料緊接在第一段後面，DPTR 不重設
+0053 119D             35             CALL    READ_LEDCODE    ; 讀LED 碼
+0055 F580             36             MOV     P0,A            ; 將LED 碼 送到PORT-0
+0057 A3               37             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0058 119D             38             CALL    READ_LEDCODE    ; 讀LED 碼
+005A F590             39             MOV     P1,A            ; 將LED 碼 送到PORT-1
+005C A3               40             INC     DPTR            ; 指向下一筆 LED 顯示資料
+005D 119D             41             CALL    READ_LEDCODE    ; 讀LED 碼
+005F F5A0             42             MOV     P2,A            ; 將LED 碼 送到PORT-2
+0061 A3               43             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0062 119D             44             CALL    READ_LEDCODE    ; 讀LED 碼
+0064 F5B0             45             MOV     P3,A            ; 將LED 碼 送到PORT-3
+0066 A3               46             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0067 11A1             47             CALL    DELAY_05S      ; 延遲時間 0.5 SECOND
+0069 D9E8             48             DJNZ    R1,d2          ; 第二段尚未播完就繼續
+006B                  49     d3:
+                      50             ; 第三段動畫：繼續順序讀表，播完後回 START 重播全部
+006B 119D             51             CALL    READ_LEDCODE    ; 讀LED 碼
+006D F580             52             MOV     P0,A            ; 將LED 碼 送到PORT-0
+006F A3               53             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0070 119D             54             CALL    READ_LEDCODE    ; 讀LED 碼
+0072 F590             55             MOV     P1,A            ; 將LED 碼 送到PORT-1
+0074 A3               56             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0075 119D             57             CALL    READ_LEDCODE    ; 讀LED 碼
+A51 MACRO ASSEMBLER  EXAM1                                                                04/17/2026 11:16:27 PAGE     2
+
+0077 F5A0             58             MOV     P2,A            ; 將LED 碼 送到PORT-2
+0079 A3               59             INC     DPTR            ; 指向下一筆 LED 顯示資料
+007A 119D             60             CALL    READ_LEDCODE    ; 讀LED 碼
+007C F5B0             61             MOV     P3,A            ; 將LED 碼 送到PORT-3
+007E A3               62             INC     DPTR            ; 指向下一筆 LED 顯示資料
+007F 11AF             63             CALL    DELAY_03S      ; 延遲時間 0.5 SECOND
+0081 DAE8             64             DJNZ    R2,d3          ; 第三段尚未播完就繼續
+                      65     
+0083                  66     d4:
+                      67             ; 第三段動畫：繼續順序讀表，播完後回 START 重播全部
+0083 119D             68             CALL    READ_LEDCODE    ; 讀LED 碼
+0085 F580             69             MOV     P0,A            ; 將LED 碼 送到PORT-0
+0087 A3               70             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0088 119D             71             CALL    READ_LEDCODE    ; 讀LED 碼
+008A F590             72             MOV     P1,A            ; 將LED 碼 送到PORT-1
+008C A3               73             INC     DPTR            ; 指向下一筆 LED 顯示資料
+008D 119D             74             CALL    READ_LEDCODE    ; 讀LED 碼
+008F F5A0             75             MOV     P2,A            ; 將LED 碼 送到PORT-2
+0091 A3               76             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0092 119D             77             CALL    READ_LEDCODE    ; 讀LED 碼
+0094 F5B0             78             MOV     P3,A            ; 將LED 碼 送到PORT-3
+0096 A3               79             INC     DPTR            ; 指向下一筆 LED 顯示資料
+0097 11BD             80             CALL    DELAY_01S      ; 延遲時間 0.5 SECOND
+0099 DBE8             81             DJNZ    R3,d4          ; 第三段尚未播完就繼續
+                      82     
+009B 8093             83             JMP     START;         ; 三段都播完，從表頭重新播放
+                      84     
+                      85     
+                      86     
+                      87     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                      88     ; 副程式名稱 ︰ READ_LEDCODE
+                      89     ; 功  能    ︰ 讀LED 碼儲存在累積器 ACC 中
+                      90     ;使用暫存器  ︰ A,DPTR
+                      91     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                      92     
+                      93     
+                      94     
+009D                  95     READ_LEDCODE:
+009D 7400             96             MOV     A,#0            ; A 當索引，固定讀 DPTR 指向位址
+009F 93               97             MOVC    A,@A+DPTR       ; 從程式記憶體取 1 byte 到 A
+00A0 22               98             RET;
+                      99     
+                     100     
+                     101     
+                     102     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     103     ; 副程式名稱 ︰ DELAY_05S
+                     104     ;  功  能    ︰ 延遲時間 0.5 SECOND
+                     105     ;使用暫存器  ︰ R7,R6,R5
+                     106     ;延遲時間    T=1+R7*[1+R6*(1+R5*2+2)+2]+2
+                     107     ;             =1+5*[1+200*(1+1+248*2+2)+2]+2
+                     108     ;             =500018 us = 0.5 SEC
+                     109     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     110     
+00A1                 111     DELAY_05S:
+00A1 7F05            112             MOV     R7,#05
+00A3                 113     a3:        
+00A3 7EC8            114             MOV     R6,#200  ; 需要１個機械週期
+00A5                 115     a2:
+00A5 7DF8            116             MOV     R5,#248
+00A7 00              117             NOP              ; 需要１個機械週期
+00A8                 118     a1: 
+00A8 DDFE            119             DJNZ    R5,a1    ; 需要２個機械週期
+00AA DEF9            120             DJNZ    R6,a2
+00AC DFF5            121             DJNZ    R7,a3
+00AE 22              122             RET
+                     123     
+A51 MACRO ASSEMBLER  EXAM1                                                                04/17/2026 11:16:27 PAGE     3
+
+                     124     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     125     ; 副程式名稱 ︰ DELAY_25S
+                     126     ;  功  能    ︰ 延遲時間 0.25 SECOND
+                     127     ;使用暫存器  ︰ R7,R6,R5
+                     128     ;延遲時間    T=1+R7*[1+R6*(1+R5*2+2)+2]+2
+                     129     ;             =1+5*[1+100*(1+1+248*2+2)+2]+2
+                     130     ;             =250009 us = 0.25 SEC
+                     131     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     132     
+00AF                 133     DELAY_03S:
+00AF 7F03            134             MOV     R7,#03
+00B1                 135     a6:        
+00B1 7EC8            136             MOV     R6,#200  ; 需要１個機械週期
+00B3                 137     a5:
+00B3 7DF8            138             MOV     R5,#248
+00B5 00              139             NOP              ; 需要１個機械週期
+00B6                 140     a4: 
+00B6 DDFE            141             DJNZ    R5,a4    ; 需要２個機械週期
+00B8 DEF9            142             DJNZ    R6,a5
+00BA DFF5            143             DJNZ    R7,a6
+00BC 22              144             RET
+                     145     
+                     146     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     147     ; 副程式名稱 ︰ DELAY_01S
+                     148     ;  功  能    ︰ 延遲時間 0.1 SECOND
+                     149     ;使用暫存器  ︰ R7,R6,R5
+                     150     ;延遲時間    T=1+R7*[1+R6*(1+R5*2+2)+2]+2
+                     151     ;             =1+1*[1+200*(1+1+248*2+2)+2]+2
+                     152     ;             = us = 0.1 SEC
+                     153     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     154     
+00BD                 155     DELAY_01S:
+00BD 7F01            156             MOV     R7,#01
+00BF                 157     a9:        
+00BF 7EC8            158             MOV     R6,#200  ; 需要１個機械週期
+00C1                 159     a8:
+00C1 7DF8            160             MOV     R5,#248
+00C3 00              161             NOP              ; 需要１個機械週期
+00C4                 162     a7: 
+00C4 DDFE            163             DJNZ    R5,a7    ; 需要２個機械週期
+00C6 DEF9            164             DJNZ    R6,a8
+00C8 DFF5            165             DJNZ    R7,a9
+00CA 22              166             RET
+                     167     
+                     168     
+                     169     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     170     ; 副程式名稱 ︰ DELAY_01S
+                     171     ;  功  能    ︰ 延遲時間 0.1 SECOND
+                     172     ;使用暫存器  ︰ R7,R6,R5
+                     173     ;延遲時間    T=1+R7*[1+R6*(1+R5*2+2)+2]+2
+                     174     ;             =1+1*[1+200*(1+1+248*2+2)+2]+2
+                     175     ;             = us = 0.1 SEC
+                     176     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     177     
+00CB                 178     DELAY_1S:
+00CB 7F0A            179             MOV     R7,#10
+00CD                 180     a12:        
+00CD 7EC8            181             MOV     R6,#200  ; 需要１個機械週期
+00CF                 182     a11:
+00CF 7DF8            183             MOV     R5,#248
+00D1 00              184             NOP              ; 需要１個機械週期
+00D2                 185     a10: 
+00D2 DDFE            186             DJNZ    R5,a10    ; 需要２個機械週期
+00D4 DEF9            187             DJNZ    R6,a11
+00D6 DFF5            188             DJNZ    R7,a12
+00D8 22              189             RET
+A51 MACRO ASSEMBLER  EXAM1                                                                04/17/2026 11:16:27 PAGE     4
+
+                     190     
+                     191     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     192     ; LED_TABLE  的資料 1 表示LED 會亮
+                     193     ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                     194     
+                     195     
+00D9                 196     LED_TABLE:                ; LED 顯示資料表
+                     197     
+                     198             ; -------- 第一段 (R0=6) --------
+00D9 03030303        199             DB      03H,03H,03H,03H        
+00DD CCCCCCCC        200             DB      11001100B, 11001100B, 11001100B, 11001100B        
+00E1 0F0F0F0F        201             DB      0FH,0FH,0FH,0FH        
+00E5 F0F0F0F0        202             DB      0F0H,0F0H,0F0H,0F0H
+00E9 00FF00FF        203             DB      00H,0FFH,00H,0FFH
+00ED FF00FF00        204             DB      0FFH,00H,0FFH,00H
+                     205     
+                     206             ; -------- 第二段 (R1=7) --------
+00F1 FFFFFFFF        207             DB      0FFH,0FFH,0FFH,0FFH        
+00F5 EEEEEEEE        208             DB      0EEH,0EEH,0EEH,0EEH        
+00F9 CCCCCCCC        209             DB      0CCH,0CCH,0CCH,0CCH        
+00FD 80808080        210             DB      80H, 80H, 80H, 80H 
+0101 00000000        211             DB      00H, 00H, 00H, 00H   
+                     212     
+                     213             ; -------- 第三段 (R2=4) --------
+0105 11111111        214             DB      011H,011H,011H,011H
+0109 33333333        215             DB      033H,033H,033H,033H
+010D 77777777        216             DB      077H,077H,077H,077H
+0111 FFFFFFFF        217             DB      0FFH,0FFH,0FFH,0FFH    
+                     218     
+                     219             ; -------- 第四段 (R0=6) --------
+0115 C0C0C0C0        220             DB      0C0H,0C0H,0C0H,0C0H 
+0119 03030303        221             DB      03H,03H,03H,03H        
+011D E3388EE3        222             DB      11100011B, 00111000B, 10001110B, 11100011B        
+0121 1CC7711C        223             DB      00011100B, 11000111B, 01110001B, 00011100B
+0125 00000000        224             DB      00H, 00H, 00H, 00H
+0129 FFFFFFFF        225             DB      0FFH,0FFH,0FFH,0FFH
+012D 00000000        226             DB      00H, 00H, 00H, 00H
+                     227     
+                     228     END
+A51 MACRO ASSEMBLER  EXAM1                                                                04/17/2026 11:16:27 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+A1 . . . . . . . .  C ADDR   00A8H   A   
+A10. . . . . . . .  C ADDR   00D2H   A   
+A11. . . . . . . .  C ADDR   00CFH   A   
+A12. . . . . . . .  C ADDR   00CDH   A   
+A2 . . . . . . . .  C ADDR   00A5H   A   
+A3 . . . . . . . .  C ADDR   00A3H   A   
+A4 . . . . . . . .  C ADDR   00B6H   A   
+A5 . . . . . . . .  C ADDR   00B3H   A   
+A6 . . . . . . . .  C ADDR   00B1H   A   
+A7 . . . . . . . .  C ADDR   00C4H   A   
+A8 . . . . . . . .  C ADDR   00C1H   A   
+A9 . . . . . . . .  C ADDR   00BFH   A   
+D1 . . . . . . . .  C ADDR   003BH   A   
+D2 . . . . . . . .  C ADDR   0053H   A   
+D3 . . . . . . . .  C ADDR   006BH   A   
+D4 . . . . . . . .  C ADDR   0083H   A   
+DELAY_01S. . . . .  C ADDR   00BDH   A   
+DELAY_03S. . . . .  C ADDR   00AFH   A   
+DELAY_05S. . . . .  C ADDR   00A1H   A   
+DELAY_1S . . . . .  C ADDR   00CBH   A   
+LED_TABLE. . . . .  C ADDR   00D9H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+READ_LEDCODE . . .  C ADDR   009DH   A   
+START. . . . . . .  C ADDR   0030H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

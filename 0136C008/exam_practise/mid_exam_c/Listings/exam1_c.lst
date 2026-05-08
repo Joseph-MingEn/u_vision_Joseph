@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   EXAM1_C                                                           04/16/2026 13:57:07 PAGE 1   
+C51 COMPILER V9.60.7.0   EXAM1_C                                                           04/16/2026 16:15:11 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EXAM1_C
@@ -35,7 +35,7 @@ line level    source
   25          
   26          const u8 LED_TABLE_THIRD[] = {
   27              0x88, 0x88, 0x88, 0x88,
-  28              0xBB, 0xBB, 0xBB, 0xBB,
+  28              0xCC, 0xCC, 0xCC, 0xCC,
   29              0xEE, 0xEE, 0xEE, 0xEE,
   30              0xFF, 0xFF, 0xFF, 0xFF};
   31          
@@ -62,7 +62,7 @@ line level    source
   52          void DELAY_01S(void)
   53          {
   54   1          u8 r7, r6, r5;
-C51 COMPILER V9.60.7.0   EXAM1_C                                                           04/16/2026 13:57:07 PAGE 2   
+C51 COMPILER V9.60.7.0   EXAM1_C                                                           04/16/2026 16:15:11 PAGE 2   
 
   55   1      
   56   1          for (r7 = 1; r7 > 0; r7--)
@@ -126,7 +126,7 @@ line level    source
  114   3              }
  115   2      
  116   2              /* SECOND */
-C51 COMPILER V9.60.7.0   EXAM1_C                                                           04/16/2026 13:57:07 PAGE 3   
+C51 COMPILER V9.60.7.0   EXAM1_C                                                           04/16/2026 16:15:11 PAGE 3   
 
  117   2              ptr = LED_TABLE_SECOND;
  118   2              for (i = 0; i < 3; i++)
