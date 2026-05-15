@@ -1,0 +1,3 @@
+".\Objects\speakerFirefighting.obj" 
+TO ".\Objects\speaker" 
+PRINT(".\Listings\speaker.m51") CODE( 0X0000-0X0FFF )

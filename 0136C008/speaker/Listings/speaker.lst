@@ -1,0 +1,197 @@
+A51 MACRO ASSEMBLER  SPEAKER                                                              05/15/2026 12:15:18 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\speaker.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE speaker.A51 SET(SMALL) DEBUG PRINT(.\Listings\speaker.lst) OBJECT(.\Obj
+                      ects\speaker.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+  03E8                 1     T0_COUNT EQU 1000
+  00B7                 2     SPK EQU P3.7
+  0030                 3     TIMES EQU 30H
+  0031                 4     H_TMP EQU 31H
+  0032                 5     L_TMP EQU 32H
+                       6     ;================================
+0000                   7     ORG 0H
+0000 801B              8     JMP SETTING
+000B                   9     ORG 0BH
+000B 805B             10     JMP TIMER0_INT
+001B                  11     ORG 1BH
+001B 805E             12     JMP TIMER1_INT
+                      13     ;================================
+                      14     
+                      15     ;================================
+001D                  16     SETTING:
+001D D2AF             17     SETB EA
+001F D2A9             18     SETB ET0
+0021 D2AB             19     SETB ET1
+0023 758170           20     MOV SP,#70H
+0026 758911           21     MOV TMOD,#00010001B
+0029 758A18           22     MOV TL0, #(65536-T0_COUNT) MOD 256
+002C 758CFC           23     MOV TH0, #(65536-T0_COUNT)/256
+002F 90008E           24     MOV DPTR,#TABLE
+0032 7800             25     MOV R0,#0
+0034 D28C             26     SETB TR0
+                      27     ;================================
+                      28     
+0036                  29     MAIN:
+0036 E8               30     MOV A,R0
+0037 93               31     MOVC A,@A+DPTR
+0038 F530             32     MOV TIMES,A
+003A B4FF04           33     CJNE A,#255,SOUND
+003D 7800             34     MOV R0,#0
+003F 80F5             35     JMP MAIN
+0041                  36     SOUND:
+0041 114D             37     CALL READ_TONE
+0043                  38     SOUND1:
+0043 E530             39     MOV A,TIMES
+0045 B400FB           40     CJNE A,#0,SOUND1
+0048 C28E             41     CLR TR1
+004A 08               42     INC R0
+004B 80E9             43     JMP MAIN
+                      44     
+004D                  45     READ_TONE:
+004D 08               46     INC R0
+004E E8               47     MOV A,R0
+004F 93               48     MOVC A,@A+DPTR
+0050 F531             49     MOV H_TMP,A
+0052 85318D           50     MOV TH1,H_TMP
+0055 08               51     INC R0
+0056 E8               52     MOV A,R0
+0057 93               53     MOVC A,@A+DPTR
+0058 F532             54     MOV L_TMP,A
+005A 85328B           55     MOV TL1,L_TMP
+005D E531             56     MOV A,H_TMP
+005F B40003           57     CJNE A,#0,SPK_WORK
+A51 MACRO ASSEMBLER  SPEAKER                                                              05/15/2026 12:15:18 PAGE     2
+
+0062 C28E             58     CLR TR1
+0064 22               59     RET
+0065                  60     SPK_WORK:
+0065 D28E             61     SETB TR1
+0067 22               62     RET
+                      63     ;=========================
+                      64     
+0068                  65     TIMER0_INT:
+0068 C0E0             66     PUSH ACC
+006A C0D0             67     PUSH PSW
+006C 1530             68     DEC TIMES
+006E 758A18           69     MOV TL0, #(65536-T0_COUNT) MOD 256
+0071 758CFC           70     MOV TH0, #(65536-T0_COUNT)/256
+0074 D28C             71     SETB TR0
+0076 D0D0             72     POP PSW
+0078 D0E0             73     POP ACC
+007A 32               74     RETI
+                      75     ;=================================
+007B                  76     TIMER1_INT:
+007B C0E0             77     PUSH ACC
+007D C0D0             78     PUSH PSW
+007F B2B7             79     CPL SPK
+0081 85318D           80     MOV TH1,H_TMP
+0084 85328B           81     MOV TL1,L_TMP
+0087 D28E             82     SETB TR1
+0089 D0D0             83     POP PSW
+008B D0E0             84     POP ACC
+008D 32               85     RETI
+                      86     
+                      87     ;=================================
+008E                  88     TABLE:
+008E 19F9B9           89     DB 25,249,185 ;第1次~第19次: 0.5S發音(392Hz)
+0091 19FBEC           90     DB 25,251,236 ;0.5S靜音
+0094 19F9B9           91     DB 25,249,185
+0097 19FBEC           92     DB 25,251,236
+009A 19F9B9           93     DB 25,249,185
+009D 19FBEC           94     DB 25,251,236
+00A0 19F9B9           95     DB 25,249,185
+00A3 19FBEC           96     DB 25,251,236
+00A6 19F9B9           97     DB 25,249,185
+00A9 19FBEC           98     DB 25,251,236
+00AC 19F9B9           99     DB 25,249,185
+00AF 19FBEC          100     DB 25,251,236
+00B2 19F9B9          101     DB 25,249,185
+00B5 19FBEC          102     DB 25,251,236
+00B8 19F9B9          103     DB 25,249,185
+00BB 19FBEC          104     DB 25,251,236
+00BE 19F9B9          105     DB 25,249,185
+00C1 19FBEC          106     DB 25,251,236
+00C4 19F9B9          107     DB 25,249,185
+00C7 19FBEC          108     DB 25,251,236
+00CA 19F9B9          109     DB 25,249,185
+00CD 19FBEC          110     DB 25,251,236
+00D0 19F9B9          111     DB 25,249,185
+00D3 19FBEC          112     DB 25,251,236
+00D6 19F9B9          113     DB 25,249,185
+00D9 19FBEC          114     DB 25,251,236
+00DC 19F9B9          115     DB 25,249,185
+00DF 19FBEC          116     DB 25,251,236
+00E2 19F9B9          117     DB 25,249,185
+00E5 19FBEC          118     DB 25,251,236
+00E8 19F9B9          119     DB 25,249,185
+00EB 19FBEC          120     DB 25,251,236
+00EE 19F9B9          121     DB 25,249,185
+00F1 19FBEC          122     DB 25,251,236
+00F4 19F9B9          123     DB 25,249,185
+A51 MACRO ASSEMBLER  SPEAKER                                                              05/15/2026 12:15:18 PAGE     3
+
+00F7 19FBEC          124     DB 25,251,236
+00FA 19F9B9          125     DB 25,249,185
+00FD 19FBEC          126     DB 25,251,236
+0100 19F9B9          127     DB 25,249,185 ;第20次: 0.5S發音(392Hz)
+0103 19FBEC          128     DB 25,251,236 ;2S靜音
+0106 C80000          129     DB 200, 0, 0
+0109 C80000          130     DB 200, 0, 0
+010C C80000          131     DB 200, 0, 0
+010F C80000          132     DB 200, 0, 0
+0112 C80000          133     DB 200, 0, 0
+0115 C80000          134     DB 200, 0, 0
+0118 C80000          135     DB 200, 0, 0
+011B C80000          136     DB 200, 0, 0
+011E C80000          137     DB 200, 0, 0
+0121 C80000          138     DB 200, 0, 0
+0124 FF              139     DB 255 ;結束碼
+                     140     ;============================
+                     141     END
+A51 MACRO ASSEMBLER  SPEAKER                                                              05/15/2026 12:15:18 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+H_TMP. . . . . . .  N NUMB   0031H   A   
+L_TMP. . . . . . .  N NUMB   0032H   A   
+MAIN . . . . . . .  C ADDR   0036H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+READ_TONE. . . . .  C ADDR   004DH   A   
+SETTING. . . . . .  C ADDR   001DH   A   
+SOUND. . . . . . .  C ADDR   0041H   A   
+SOUND1 . . . . . .  C ADDR   0043H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPK. . . . . . . .  B ADDR   00B0H.7 A   
+SPK_WORK . . . . .  C ADDR   0065H   A   
+T0_COUNT . . . . .  N NUMB   03E8H   A   
+TABLE. . . . . . .  C ADDR   008EH   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TIMER0_INT . . . .  C ADDR   0068H   A   
+TIMER1_INT . . . .  C ADDR   007BH   A   
+TIMES. . . . . . .  N NUMB   0030H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

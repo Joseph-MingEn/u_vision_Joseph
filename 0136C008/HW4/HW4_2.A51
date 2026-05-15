@@ -18,6 +18,8 @@ START:
         MOV IP,#00000001B ; INT0 中斷優先於 INT1設定
         SETB IT0 ; INT0 負緣觸發
         SETB IT1 ; INT1 負緣觸發
+        MOV DPTR,#TABLE
+
 D1:
         JMP D1 ; 無窮回路等待中斷; INT0中斷副程式
 
@@ -31,7 +33,7 @@ INT0_OK:
 
 SUB_INT1:
         DEC R0
-        CJNE R0,#00H,INT1_OK
+        CJNE R0,#0FFH,INT1_OK
         MOV R0,#09H        ; 0再減回到9
 
 INT1_OK:
@@ -41,7 +43,6 @@ INT1_OK:
 
 DISPLAY:
         MOV A,R0
-        MOV DPTR,#TABLE
         MOVC A,@A+DPTR
         MOV P0,A
         RET

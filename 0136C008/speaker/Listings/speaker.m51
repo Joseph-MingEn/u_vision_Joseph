@@ -1,0 +1,133 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    05/15/2026  12:34:54  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\speakerFirefighting.obj TO .\Objects\speaker PRINT (.\Listings\speaker.m51) CODE (
+>> 0X0000-0X0FFF)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\speakerFirefighting.obj (SPEAKERFIREFIGHTING)
+
+
+LINK MAP OF MODULE:  .\Objects\speaker (SPEAKERFIREFIGHTING)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0095H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\speaker (SPEAKERFIREFIGHTING)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        SPEAKERFIREFIGHTING
+  D:00E0H         SYMBOL        ACC
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.1       SYMBOL        ET0
+  B:00A8H.3       SYMBOL        ET1
+  N:0031H         SYMBOL        H_TMP
+  N:0032H         SYMBOL        L_TMP
+  C:0036H         SYMBOL        MAIN
+  D:00B0H         SYMBOL        P3
+  D:00D0H         SYMBOL        PSW
+  C:004DH         SYMBOL        READ_TONE
+  C:001DH         SYMBOL        SETTING
+  C:0041H         SYMBOL        SOUND
+  C:0043H         SYMBOL        SOUND1
+  D:0081H         SYMBOL        SP
+  B:00B0H.7       SYMBOL        SPK
+  C:0065H         SYMBOL        SPK_WORK
+  N:86A0H         SYMBOL        T0_COUNT
+  C:008EH         SYMBOL        TABLE
+  D:008CH         SYMBOL        TH0
+  D:008DH         SYMBOL        TH1
+  C:0068H         SYMBOL        TIMER0_INT
+  C:007BH         SYMBOL        TIMER1_INT
+  N:0030H         SYMBOL        TIMES
+  D:008AH         SYMBOL        TL0
+  D:008BH         SYMBOL        TL1
+  D:0089H         SYMBOL        TMOD
+  B:0088H.4       SYMBOL        TR0
+  B:0088H.6       SYMBOL        TR1
+  C:0000H         LINE#         8
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  05/15/2026  12:34:54  PAGE 2
+
+
+  C:000BH         LINE#         10
+  C:001BH         LINE#         12
+  C:001DH         LINE#         17
+  C:001FH         LINE#         18
+  C:0021H         LINE#         19
+  C:0023H         LINE#         20
+  C:0026H         LINE#         21
+  C:0029H         LINE#         22
+  C:002CH         LINE#         23
+  C:002FH         LINE#         24
+  C:0032H         LINE#         25
+  C:0034H         LINE#         26
+  C:0036H         LINE#         30
+  C:0037H         LINE#         31
+  C:0038H         LINE#         32
+  C:003AH         LINE#         33
+  C:003DH         LINE#         34
+  C:003FH         LINE#         35
+  C:0041H         LINE#         37
+  C:0043H         LINE#         39
+  C:0045H         LINE#         40
+  C:0048H         LINE#         41
+  C:004AH         LINE#         42
+  C:004BH         LINE#         43
+  C:004DH         LINE#         46
+  C:004EH         LINE#         47
+  C:004FH         LINE#         48
+  C:0050H         LINE#         49
+  C:0052H         LINE#         50
+  C:0055H         LINE#         51
+  C:0056H         LINE#         52
+  C:0057H         LINE#         53
+  C:0058H         LINE#         54
+  C:005AH         LINE#         55
+  C:005DH         LINE#         56
+  C:005FH         LINE#         57
+  C:0062H         LINE#         58
+  C:0064H         LINE#         59
+  C:0065H         LINE#         61
+  C:0067H         LINE#         62
+  C:0068H         LINE#         66
+  C:006AH         LINE#         67
+  C:006CH         LINE#         68
+  C:006EH         LINE#         69
+  C:0071H         LINE#         70
+  C:0074H         LINE#         71
+  C:0076H         LINE#         72
+  C:0078H         LINE#         73
+  C:007AH         LINE#         74
+  C:007BH         LINE#         77
+  C:007DH         LINE#         78
+  C:007FH         LINE#         79
+  C:0081H         LINE#         80
+  C:0084H         LINE#         81
+  C:0087H         LINE#         82
+  C:0089H         LINE#         83
+  C:008BH         LINE#         84
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  05/15/2026  12:34:54  PAGE 3
+
+
+  C:008DH         LINE#         85
+  -------         ENDMOD        SPEAKERFIREFIGHTING
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 007EH BYTE ( 6%) *
+******************************************************************************
+
+Program Size: data=8.0 xdata=0 code=149
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
